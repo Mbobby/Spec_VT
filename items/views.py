@@ -1,11 +1,26 @@
-from django.shortcuts import render
+from django.shortcuts import render_to_response
 from items.models import Items
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.core.context_processors import csrf
 # Create your views here.
 
-def get(request, name_item):
+def get(request, item_name):
 	try:
-		n = Items.objects.get(name = name_item.lower())
-		return HttpResponse(n.location)
+		n = Items.objects.get(name = item_name.lower())
+		return render_to_response('get.html', { "item" : n})
 	except:
-		return HttpResponse("The item %s can not be found in this shop." % name_item)
+		c = {}
+		c.update(csrf(request))
+		c['message'] = "The product you are searching for is not being offered by us!"
+		return render_to_response('base.html', c)
+	
+
+def search(request):
+	if request.method == "POST":
+		item = request.POST['item'].strip()
+		if (len(item) > 0):
+			return HttpResponseRedirect('/items/get/%s/' % item)
+		else:
+			return HttpResponseRedirect('/home/')
+	else:
+		return HttpResponseRedirect('/home/')

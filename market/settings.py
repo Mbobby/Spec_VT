@@ -22,7 +22,7 @@ SECRET_KEY = '_hvtx0d!gcg2i11d!f$8n_d+nmt174a%*hpq+#pl!zj73pc5f('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -52,6 +52,8 @@ ROOT_URLCONF = 'market.urls'
 
 WSGI_APPLICATION = 'market.wsgi.application'
 
+TEMPLATE_DIRS = [ os.path.join('templates') ]
+
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
@@ -65,6 +67,13 @@ DATABASES = {
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
+
+
+
+STATICFILES_DIRS = ( 
+    ('assets', os.path.join('static') ),
+
+ )
 
 LANGUAGE_CODE = 'en-us'
 
@@ -81,3 +90,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
